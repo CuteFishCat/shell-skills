@@ -424,7 +424,7 @@ Shell中算数表达式，要符合算数运算定义的规则，如下：
 27
 [root@localhost ~]#
 ```
-4. 与、或、异或 位运算
+4. 与、或、异或、非 位运算
 ```bash
 [root@localhost ~]# age=0
 [root@localhost ~]# echo $age
@@ -444,9 +444,173 @@ Shell中算数表达式，要符合算数运算定义的规则，如下：
 [root@localhost ~]# age=$((2^7))
 [root@localhost ~]# echo $age
 5
-[root@localhost ~]# 
+[root@localhost ~]# age=0
+[root@localhost ~]# age=$((~7))
+[root@localhost ~]# echo $age
+-8
+[root@localhost ~]#
 ```
-5. 
+5. 数值的左移、右移 位运算
+```bash
+[root@localhost ~]# age=$((8>>1))
+[root@localhost ~]# echo $age
+4
+[root@localhost ~]# age=$((8>>3))
+[root@localhost ~]# echo $age
+1
+[root@localhost ~]# age=$((8>>10))
+[root@localhost ~]# echo $age
+0
+[root@localhost ~]# age=$((1<<1))
+[root@localhost ~]# echo $age
+2
+[root@localhost ~]# age=$((1<<2))
+[root@localhost ~]# echo $age
+4
+[root@localhost ~]# age=$((1<<10))
+[root@localhost ~]# echo $age
+1024
+[root@localhost ~]# age=$((1<<100))
+[root@localhost ~]# echo $age
+68719476736
+[root@localhost ~]# age=$((1<<1000))
+[root@localhost ~]# echo $age
+1099511627776
+[root@localhost ~]# age=$((1<<10000))
+[root@localhost ~]# echo $age
+65536
+[root@localhost ~]# age=$((1<<100000))
+[root@localhost ~]# echo $age
+4294967296
+[root@localhost ~]# age=$((1<<1000000))
+[root@localhost ~]# echo $age
+1
+[root@localhost ~]# age=$((1<<10000000000))
+[root@localhost ~]# echo $age
+1
+[root@localhost ~]#
+```
+
+6. 逻辑运算 真为1 假为0 ，> < >= <= == !=  !
+```bash
+[root@localhost ~]# age=$((6>2))
+[root@localhost ~]# echo $result
+1
+[root@localhost ~]# age=$((6<2))
+[root@localhost ~]# echo $result
+1
+[root@localhost ~]# result=$((6>2))
+[root@localhost ~]# echo $result
+1
+[root@localhost ~]# result=$((6<2))
+[root@localhost ~]# echo $result
+0
+[root@localhost ~]# result=$((6<=2))
+[root@localhost ~]# echo $result
+0
+[root@localhost ~]# result=$((6>=2))
+[root@localhost ~]# echo $result
+1
+[root@localhost ~]# result=$((6==2))
+[root@localhost ~]# echo $result
+0
+[root@localhost ~]# result=$((6!=2))
+[root@localhost ~]# echo $result
+1
+[root@localhost ~]# result=$((! 6>2))
+[root@localhost ~]# echo $result
+0
+[root@localhost ~]# result=$((! 6<2))
+[root@localhost ~]# echo $result
+1
+```
+
+7. 逻辑 与、或
+```bash
+[root@localhost ~]# result=$((1<2 && 1<3))
+[root@localhost ~]# echo $result
+1
+[root@localhost ~]# result=$((1<2 && 1>3))
+[root@localhost ~]# echo $result
+0
+[root@localhost ~]# result=$((1>2 && 1<3))
+[root@localhost ~]# echo $result
+0
+[root@localhost ~]# result=$((1>2 && 1>3))
+[root@localhost ~]# echo $result
+0
+[root@localhost ~]# result=$((1>2 || 1>3))
+[root@localhost ~]# echo $result
+0
+[root@localhost ~]# result=$((1<2 || 1>3))
+[root@localhost ~]# echo $result
+1
+[root@localhost ~]# result=$((1>2 || 1<3))
+[root@localhost ~]# echo $result
+1
+[root@localhost ~]# result=$((1<2 || 1<3))
+[root@localhost ~]# echo $result
+1
+[root@localhost ~]#
+```
+
+8. 三目运算符 
+```bash
+[root@localhost ~]# result=$((1<2?1<2:1>3))
+[root@localhost ~]# echo $result
+1
+[root@localhost ~]# result=$((1>2?1>2:1<3))
+[root@localhost ~]# echo $result
+1
+```
+
+9. 赋值运算符
+```bash
+[root@localhost ~]# ((result=0))
+[root@localhost ~]# echo $result
+0
+[root@localhost ~]# ((result+=3))
+[root@localhost ~]# echo $result
+3
+[root@localhost ~]# ((result-=1))
+[root@localhost ~]# echo $result
+2
+[root@localhost ~]# ((result*=3))
+[root@localhost ~]# echo $result
+6
+[root@localhost ~]# ((result/=3))
+[root@localhost ~]# echo $result
+2
+[root@localhost ~]# ((result%=5))
+[root@localhost ~]# echo $result
+2
+[root@localhost ~]# ((result<<=1))
+[root@localhost ~]# echo $result
+4
+[root@localhost ~]# ((result>>=1))
+[root@localhost ~]# echo $result
+2
+[root@localhost ~]# ((result&=3))
+[root@localhost ~]# echo $result
+2
+[root@localhost ~]# ((result|=3))
+[root@localhost ~]# echo $result
+3
+[root@localhost ~]# ((result^=1))
+[root@localhost ~]# echo $result
+2
+[root@localhost ~]#
+```
+
+10. 先后执行多条运算表到式
+```bash
+[root@localhost ~]# ((result=7, name=2, result=3))
+[root@localhost ~]# echo $result
+3
+[root@localhost ~]# echo $name
+2
+[root@localhost ~]#
+```
 # bc ：An arbitrary precision calculator language
 相对于expr 而言，bc是一个强大的计算器，后期我单独给大家介绍一下。  
 简单说，bc 在数值运算时支持小数，如图：
@@ -459,7 +623,6 @@ Shell中算数表达式，要符合算数运算定义的规则，如下：
 4.2
 [root@localhost ~]#
 ```
-
 
 
 
