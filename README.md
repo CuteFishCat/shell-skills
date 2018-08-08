@@ -212,9 +212,9 @@ declare -- Stu_age="30year"
 
 
 # expr ：evaluate expressions  
-expr 是 GNU coreutils 软件包中的一个数值计算工具，出来数值计算，他还有一些其它功能。
+expr 是 GNU coreutils 软件包中的一个数值计算工具，除了数值计算，他还有一些其它功能。
 
-1. 基算数运算  
+1. 基础 算数运算  
 进行乘、整除、取余数是运算符要是用 \ 转义一下
 ```bash
 [root@localhost ~]# expr 3 + 0
@@ -356,7 +356,7 @@ index str1 str2 , 返回str2在str1中的位置坐标,如图：
 1
 [root@localhost ~]#
 ```
-# Arithmetic Expansion 算数扩展
+# Arithmetic Expansion 算数扩展 (( ))
 使用双括号将 `算数表达式` 括起来，进行运算,括号前不使用 $ 符号仅进行运行，使用$后可获取运算结果，如图：
 ```bash
 [root@localhost ~]# ((3 + 6))
@@ -367,17 +367,44 @@ index str1 str2 , 返回str2在str1中的位置坐标,如图：
 17
 [root@localhost ~]#
 ```
-除了使用双括号外，还可以使用let 进行运算，他俩都是对 `算数表达式` 处理，如图。
+
+# let 计算命令
+除了使用(())外，shell中还可以使用let 进行算数运算，他可以对 `算数表达式` 处理，如图。
 ```bash
-[root@localhost ~]# let 3+9
-[root@localhost ~]# echo $name
-11
 [root@localhost ~]# let 3+9
 [root@localhost ~]# echo $?
 0
 [root@localhost ~]# let name=3+9
 [root@localhost ~]# echo $name
 12
+[root@localhost ~]#
+```
+let 后 可以处理多个 算数表达式
+```bash
+[root@localhost ~]# a1=1
+[root@localhost ~]# a2=2
+[root@localhost ~]# a3=3
+[root@localhost ~]# let a1=a1+2 a2=a2+2
+[root@localhost ~]# echo $a1
+3
+[root@localhost ~]# echo $a2
+4
+[root@localhost ~]# let a1=a1+2 a2=a2+2,a3=a3+3
+[root@localhost ~]# echo $a1
+5
+[root@localhost ~]# echo $a2
+6
+[root@localhost ~]# echo $a3
+6
+[root@localhost ~]#
+```
+
+
+除了 算数扩展、let外，declare -i 时，也可以进行 `算数表达式` 处理，如图：  
+```bash
+[root@localhost ~]# declare -i name=8%5
+[root@localhost ~]# echo $name
+3
 [root@localhost ~]#
 ```
 
@@ -611,6 +638,8 @@ Shell中算数表达式，要符合算数运算定义的规则，如下：
 2
 [root@localhost ~]#
 ```
+
+
 # bc ：An arbitrary precision calculator language
 相对于expr 而言，bc是一个强大的计算器，后期我单独给大家介绍一下。  
 简单说，bc 在数值运算时支持小数，如图：
